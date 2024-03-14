@@ -33,7 +33,7 @@ public class UserController {
             if (request.size() > 10 || !request.containsKey("login") || !request.containsKey("password") || !request.containsKey("data") || !request.containsKey("email")) {
                 throw new RuntimeException("Логин или пароль не найдены");
             }
-            User user = new User("artemka", "4335345", "2004-01-01", "hfthft");
+            User user = new User("olga", "4335345", "2004-01-01", "hfthft");
             int rowsAffected = dbWorker.insertUser(user);
 
             if (rowsAffected > 0) {
