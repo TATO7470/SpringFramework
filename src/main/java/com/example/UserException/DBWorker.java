@@ -5,7 +5,7 @@ import java.sql.*;
 
 @Repository
 public class DBWorker {
-        private static  String URL = "jdbc:postgresql://172.17.0.2:5432/DBtato";
+        private static  String URL = "jdbc:postgresql://postgres:5432/DBtato";
         private static  String USER = "tato";
         private static  String PASSWORD = "123456";
         public static User selectUser(String login) {
