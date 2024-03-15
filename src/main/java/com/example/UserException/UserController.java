@@ -8,7 +8,6 @@ import java.util.Map;
 
 @RestController
 public class UserController {
-
     private DBWorker dbWorker;
 
     public UserController(DBWorker dbWorker) {
@@ -17,32 +16,31 @@ public class UserController {
 
     @GetMapping("/getUser")
     public ResponseEntity<?> getUser() {
-        try {
-            User user = dbWorker.selectUser("stas");
-            if (user == null) {
-                throw new RuntimeException("Пользователь не найден");
-            }
-            return ResponseEntity.ok(user);
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), e);
+        User user = dbWorker.selectUser("tato");
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Пользователь не найден");
         }
+        return ResponseEntity.ok(user);
     }
+
     @PostMapping("/postUser")
     public ResponseEntity<?> post(@RequestBody Map<String, String> request) {
         try {
-            if (request.size() > 10 || !request.containsKey("login") || !request.containsKey("password") || !request.containsKey("data") || !request.containsKey("email")) {
-                throw new RuntimeException("Логин или пароль не найдены");
+            if (request.size() > 4 || !request.containsKey("login") || !request.containsKey("password") || !request.containsKey("email")) {
+                throw new Exception("Логин, пароль, почта не найдена ");
             }
-            User user = new User("olga", "4335345", "2004-01-01", "hfthft");
-            int rowsAffected = dbWorker.insertUser(user);
-
-            if (rowsAffected > 0) {
+            User user = new User(request.get("login"), request.get("password"),request.get("email"));
+            int insertRow = dbWorker.insertUser(user);
+            if (insertRow > 0) {
                 return ResponseEntity.ok(user);
             } else {
-                throw new RuntimeException("Не удалось добавить пользователя в базу данных или пользователь уже с таким логином существует");
+                throw new Exception("Такой пользователь уже существует");
             }
-        } catch (RuntimeException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage(), e);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
 }
+
+
+

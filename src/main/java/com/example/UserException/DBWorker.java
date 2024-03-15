@@ -5,7 +5,7 @@ import java.sql.*;
 
 @Repository
 public class DBWorker {
-        private static  String URL = "jdbc:postgresql://postgres:5432/DBtato";
+        private static  String URL = "jdbc:postgresql://localhost:5432/DBtato";
         private static  String USER = "tato";
         private static  String PASSWORD = "123456";
         public static User selectUser(String login) {
@@ -21,11 +21,11 @@ public class DBWorker {
                         if (userData.next()) {
                                 String Login = userData.getString("login");
                                 String Password = userData.getString("password");
-                                String Data = userData.getString("date");
+                                //String Data = userData.getString("date");
                                 String Email = userData.getString("email");
-                                user = new User(Login, Password, Data, Email);
+                                user = new User(Login, Password, Email);
                         }
-                } catch (SQLException e) {
+                } catch (Exception e) {
                         System.err.println("Соединение с базой данных не установлено " + e.getMessage());
                 }
             return user;
@@ -38,11 +38,11 @@ public class DBWorker {
                      PreparedStatement preparedStatement = connection.prepareStatement(request)) {
                         preparedStatement.setString(1, user.getLogin());
                         preparedStatement.setString(2, user.getPassword());
-                        preparedStatement.setDate(3, Date.valueOf(user.getDate()));
+                        preparedStatement.setDate(3, Date.valueOf(String.valueOf(user.getDate())));
                         preparedStatement.setString(4, user.getLogin());
                         preparedStatement.setString(5, user.getEmail());
                         return preparedStatement.executeUpdate();
-                } catch (SQLException e) {
+                } catch (Exception e) {
                         System.err.println("NO DATABASE " + e.getMessage());
                 }
             return 0;

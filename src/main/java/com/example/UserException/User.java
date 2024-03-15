@@ -1,15 +1,17 @@
 package com.example.UserException;
 
+import java.time.LocalDate;
+
 public class User {
     public String login;
     public String password;
-    public String date;
+    public LocalDate date;
     public String email;
 
-    public User(String login, String password, String date, String email) {
+    public User(String login, String password,String email) {
         this.login = login;
         this.password = password;
-        this.date = date;
+        this.date = LocalDate.now();
         this.email = email;
     }
 
@@ -29,11 +31,11 @@ public class User {
         this.password = password;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
