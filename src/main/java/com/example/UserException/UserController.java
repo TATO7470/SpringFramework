@@ -27,7 +27,7 @@ public class UserController {
     public ResponseEntity<?> post(@RequestBody Map<String, String> request) {
         try {
             if (request.size() > 4 || !request.containsKey("login") || !request.containsKey("password") || !request.containsKey("email")) {
-                throw new Exception("Логин, пароль, почта не найдена ");
+                throw new Exception("Логин, пароль, почта не найдены ");
             }
             User user = new User(request.get("login"), request.get("password"),request.get("email"));
             int insertRow = dbWorker.insertUser(user);
