@@ -1,30 +1,25 @@
 package com.example.UserException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.Map;
 
 @RestController
 public class UserController {
+    @Autowired
     private DBWorker dbWorker;
-
-    public UserController(DBWorker dbWorker) {
-        this.dbWorker = dbWorker;
-    }
-
     @GetMapping("/getUser")
-    public ResponseEntity<?> getUser() {
-        User user = dbWorker.selectUser("tato");
+    public ResponseEntity<?> getUser(@RequestParam String login) {
+        User user = dbWorker.selectUser(login);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Пользователь не найден");
         }
         return ResponseEntity.ok(user);
     }
-
     @PostMapping("/postUser")
-    public ResponseEntity<?> post(@RequestBody Map<String, String> request) {
+    public ResponseEntity<?> postUser(@RequestBody Map<String, String> request) {
         try {
             if (request.size() > 4 || !request.containsKey("login") || !request.containsKey("password") || !request.containsKey("email")) {
                 throw new Exception("Логин, пароль, почта не найдены ");

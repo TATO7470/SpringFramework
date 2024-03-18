@@ -1,9 +1,8 @@
 package com.example.UserException;
-import org.springframework.stereotype.Repository;
-
+import org.springframework.stereotype.Component;
 import java.sql.*;
 
-@Repository
+@Component
 public class DBWorker {
         private static  String URL = "jdbc:postgresql://192.168.31.94:5432/DBtato";
         private static  String USER = "tato";
