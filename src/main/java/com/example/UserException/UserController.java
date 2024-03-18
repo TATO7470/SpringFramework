@@ -32,7 +32,7 @@ public class UserController {
             User user = new User(request.get("login"), request.get("password"),request.get("email"));
             int insertRow = dbWorker.insertUser(user);
             if (insertRow > 0) {
-                return ResponseEntity.ok(user);
+                return ResponseEntity.ok("Количество добавленных пользователей "+ insertRow);
             } else {
                 throw new Exception("Такой пользователь уже существует");
             }

@@ -31,7 +31,7 @@ public class DBWorker {
             return user;
         }
         public int insertUser (User user) {
-                int insertUser = 0;
+                int insertRow = 0;
                 String request = "INSERT INTO user_data (login, password, date) VALUES (?, ?, ?); " +
                                  "INSERT INTO user_email (login, email) VALUES (?, ?)";
                 try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -41,12 +41,11 @@ public class DBWorker {
                         preparedStatement.setDate(3, Date.valueOf(String.valueOf(user.getDate())));
                         preparedStatement.setString(4, user.getLogin());
                         preparedStatement.setString(5, user.getEmail());
-                        return preparedStatement.executeUpdate();
+                        insertRow=preparedStatement.executeUpdate();
                 } catch (Exception e) {
-                        System.err.println("NO DATABASE " + e.getMessage());
+                        System.err.println("Соединение с базой данных не установлено " + e.getMessage());
                 }
-            return 0;
+            return insertRow;
         }
-
 }
 
