@@ -1,0 +1,1 @@
+"User{login='tato', password='dfgdfgdg', email='kdsjfksfj@mail.ru'}"
