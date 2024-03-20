@@ -20,7 +20,6 @@ public class DBWorker {
                         if (userData.next()) {
                                 String Login = userData.getString("login");
                                 String Password = userData.getString("password");
-                                //String Data = userData.getString("date");
                                 String Email = userData.getString("email");
                                 user = new User(Login, Password, Email);
                         }

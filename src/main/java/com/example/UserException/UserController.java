@@ -1,9 +1,11 @@
 package com.example.UserException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
 import java.util.Map;
 
 @RestController
@@ -14,12 +16,12 @@ public class UserController {
     private DBWorker dbWorker;
 
     @GetMapping("/getUser")
-    public ResponseEntity<?> getUser(@RequestParam(value = "login") String login) {
+    public User getUser(@RequestParam(value = "login") String login) {
         User user = dbWorker.selectUser(login);
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Пользователь не найден");
         }
-        return ResponseEntity.ok(user);
+        return user;
     }
 
     @PostMapping("/postUser")
@@ -39,14 +41,21 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
     }
+
     @GetMapping("/writeUsers")
     public ResponseEntity<?> writeUsers(@RequestParam(value = "login") String login) {
         User user = DBWorker.selectUser(login);
         if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь с указанным логином не найден");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь не найден");
         } else {
             workWithFiles.writeFile(String.valueOf(user));
-            return ResponseEntity.ok("Информация о пользователе записана в файл.");
+            return ResponseEntity.ok("Информация записана в файл.");
         }
+    }
+    @GetMapping("/readFile")
+    public String readFile() {
+        String rnd = workWithFiles.readFile();
+        System.out.println("Случайная строка: " + rnd);
+        return rnd;
     }
 }

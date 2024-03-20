@@ -1,8 +1,13 @@
 package com.example.UserException;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
+
 import java.io.*;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.util.ArrayList;
+import java.util.Random;
 
 @Component
 public class WorkWithFiles {
@@ -13,9 +18,21 @@ public class WorkWithFiles {
             fileWriter.write(json);
             fileWriter.write("\n");
         } catch (IOException e) {
-            System.out.println("Ошибка " + e);
+            System.out.println("Ошибка " + e.getMessage());
         }
     }
-    public void readFile(String text){
+    public static String readFile() {
+        ArrayList<String> countLine = new ArrayList<String>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("RandomFile.txt"))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                countLine.add(line);
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка " + e.getMessage());
+        }
+        Random random = new Random();
+        int index = random.nextInt(countLine.size());
+        return countLine.get(index);
     }
 }
