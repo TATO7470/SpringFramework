@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import java.io.*;
 import java.io.IOException;
 import java.io.BufferedReader;
-import java.util.ArrayList;
+
 import java.util.Random;
 
 @Component
@@ -21,18 +21,18 @@ public class WorkWithFiles {
             System.out.println("Ошибка " + e.getMessage());
         }
     }
+
     public static String readFile() {
-        ArrayList<String> countLine = new ArrayList<String>();
+        String randomLine = null;
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("RandomFile.txt"))) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                countLine.add(line);
+            Random random = new Random();
+            int index = random.nextInt(10) + 1;
+            for (int i = 0; i < index; i++) {
+                randomLine = bufferedReader.readLine();
             }
         } catch (IOException e) {
             System.out.println("Ошибка " + e.getMessage());
         }
-        Random random = new Random();
-        int index = random.nextInt(countLine.size());
-        return countLine.get(index);
+        return randomLine;
     }
 }

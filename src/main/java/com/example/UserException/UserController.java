@@ -17,11 +17,7 @@ public class UserController {
 
     @GetMapping("/getUser")
     public User getUser(@RequestParam(value = "login") String login) {
-        User user = dbWorker.selectUser(login);
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Пользователь не найден");
-        }
-        return user;
+        return dbWorker.selectUser(login);
     }
 
     @PostMapping("/postUser")
@@ -42,16 +38,13 @@ public class UserController {
         }
     }
 
-    @GetMapping("/writeUsers")
-    public ResponseEntity<?> writeUsers(@RequestParam(value = "login") String login) {
+    @GetMapping("/writeUser")
+    public ResponseEntity<?> writeUser(@RequestParam(value = "login") String login) {
         User user = DBWorker.selectUser(login);
-        if (user == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Пользователь не найден");
-        } else {
-            workWithFiles.writeFile(String.valueOf(user));
-            return ResponseEntity.ok("Информация записана в файл.");
-        }
+        workWithFiles.writeFile(String.valueOf(user));
+        return ResponseEntity.ok("Информация записана в файл.");
     }
+
     @GetMapping("/readFile")
     public String readFile() {
         String rnd = workWithFiles.readFile();
